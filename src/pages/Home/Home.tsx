@@ -42,7 +42,7 @@ const Home: React.FC<HomeProps> = ({ books, loading, fetchBooks }) => {
         </S.BookCol>
     ));
 
-    const handlePageClick = (event: { selected: number }) => {
+    const handlePageChange = (event: { selected: number }) => {
         navigate(
             {
                 pathname: '/',
@@ -66,7 +66,7 @@ const Home: React.FC<HomeProps> = ({ books, loading, fetchBooks }) => {
                     <ReactPaginate
                         breakLabel="..."
                         nextLabel=">"
-                        onPageChange={handlePageClick}
+                        onPageChange={handlePageChange}
                         pageRangeDisplayed={2}
                         pageCount={pageCount}
                         previousLabel="<"
