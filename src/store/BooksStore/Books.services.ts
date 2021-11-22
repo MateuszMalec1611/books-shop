@@ -10,10 +10,10 @@ import {
 } from './Books.types';
 
 export const fetchBooks: FetchBooksAction =
-    () => async (dispatch: Dispatch<BooksDispatchTypes>) => {
+    (page: number) => async (dispatch: Dispatch<BooksDispatchTypes>) => {
         try {
             const { data }: AxiosResponse<{ data: Book[]; metadata: Metadata }> = await api().get(
-                'book'
+                `book?page=${page}`
             );
 
             dispatch({
