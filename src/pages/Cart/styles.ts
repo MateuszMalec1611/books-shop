@@ -17,3 +17,20 @@ export const CartItemsBox = styled.ul`
     overflow: hidden;
     max-width: 600px;
 `;
+
+export const SummaryBox = styled.div`
+    margin: 10px;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-transform: uppercase;
+
+    h2 {
+        font-weight: bold;
+
+        & span {
+            color: yellowgreen;
+        }
+    }
+`;
