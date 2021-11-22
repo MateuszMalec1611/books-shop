@@ -1,12 +1,13 @@
-import { Book } from '../BooksStore/Books.types';
-
 export interface CartState {
-    cart: Cart[] | [];
+    cart: CartItem[] | [];
     totalAmount: number;
 }
 
-export type Cart = {
-    book: Book;
+export type CartItem = {
+    id: number;
+    title: string;
+    cover_url: string;
+    price: number;
     quantity: number;
 };
 
@@ -14,7 +15,7 @@ export type CartDispatchTypes = AddToCart;
 
 export interface AddToCart {
     type: typeof CartActionTypes.ADD_TO_CART;
-    payload: { book: Book; quantity: number };
+    payload: CartItem;
 }
 
 export enum CartActionTypes {

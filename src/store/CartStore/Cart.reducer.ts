@@ -1,4 +1,4 @@
-import { Cart, CartActionTypes, CartDispatchTypes, CartState } from './Cart.types';
+import { CartActionTypes, CartDispatchTypes, CartItem, CartState } from './Cart.types';
 
 const defaultState: CartState = {
     cart: [],
@@ -12,13 +12,13 @@ const CartReducer = (
     switch (action.type) {
         case CartActionTypes.ADD_TO_CART:
             const updatedTotalAmount =
-                state.totalAmount + action.payload.quantity * action.payload.book.price;
+                state.totalAmount + action.payload.quantity * action.payload.price;
 
             const existingCartItemIndex = state.cart.findIndex(
-                item => item.book.id === action.payload.book.id
+                item => item.id === action.payload.id
             );
             const existingCartItem = state.cart[existingCartItemIndex];
-            let updatedCart: Cart[] = [];
+            let updatedCart: CartItem[] = [];
 
             if (existingCartItem) {
                 const updatedItem = {

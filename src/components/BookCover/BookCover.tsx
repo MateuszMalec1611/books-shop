@@ -1,7 +1,8 @@
 import { Card, Button } from 'react-bootstrap';
 import { useAppDispatch } from 'src/hooks/useAppStore';
 import { Book } from 'src/store/BooksStore/Books.types';
-import { updateStore } from 'src/store/CartStore/Cart.services';
+import { addToCart } from 'src/store/CartStore/Cart.services';
+import { CartItem } from 'src/store/CartStore/Cart.types';
 import * as S from './styles';
 
 interface BookCoverProps {
@@ -10,10 +11,18 @@ interface BookCoverProps {
 
 const BookCover: React.FC<BookCoverProps> = ({ book }) => {
     const dispatch = useAppDispatch();
-    const { title, cover_url, author, pages, price } = book;
-    
+    const { title, cover_url, author, pages, price, id } = book;
+
     const handleAddToCart = () => {
-        dispatch(updateStore(book, 1));
+        const cartItem: CartItem = {
+            title,
+            cover_url,
+            id,
+            price,
+            quantity: 1,
+        };
+
+        dispatch(addToCart(cartItem));
     };
 
     return (
