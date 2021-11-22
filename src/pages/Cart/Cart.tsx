@@ -1,14 +1,19 @@
+import CartItem from 'src/components/CartItem/CartItem';
 import { useAppSelector } from 'src/hooks/useAppStore';
+import * as S from './styles';
 
 interface CartProps {}
 
 const Cart: React.FC<CartProps> = () => {
     const { cart, totalAmount } = useAppSelector(state => state.cartStore);
 
-    console.log(cart);
-    console.log(totalAmount);
+    const cartItems = cart.map(item => <CartItem key={item.id} cartItem={item} />);
 
-    return <div>d</div>;
+    return (
+        <S.CartWrapper>
+            <S.CartItemsBox>{cartItems}</S.CartItemsBox>
+        </S.CartWrapper>
+    );
 };
 
 export default Cart;
