@@ -11,7 +11,7 @@ export interface SetBooks {
 
 export type BooksDispatchTypes = SetBooks;
 
-export type FetchBooksAction = () => ThunkAction<void, BooksState, {}, SetBooks>;
+export type FetchBooksAction = (page: number) => ThunkAction<void, BooksState, {}, SetBooks>;
 
 export type Books = {
     booksList: { [key: number]: Book[] };
