@@ -2,14 +2,19 @@ import { ThunkAction } from 'redux-thunk';
 
 export interface BooksState {
     books?: Books;
+    loading: boolean;
 }
 
 export interface SetBooks {
-    type: typeof BooksActionTypes.SET_BOOKS;
+    type: BooksActionTypes.SET_BOOKS;
     payload: { booksList: Book[]; metadata: Metadata };
 }
+export interface SetLoading {
+    type: BooksActionTypes.SET_LOADING;
+    payload?: boolean;
+}
 
-export type BooksDispatchTypes = SetBooks;
+export type BooksDispatchTypes = SetBooks | SetLoading;
 
 export type FetchBooksAction = (page: number) => ThunkAction<void, BooksState, {}, SetBooks>;
 
@@ -36,4 +41,5 @@ export type Metadata = {
 
 export enum BooksActionTypes {
     SET_BOOKS = 'SET_BOOKS',
+    SET_LOADING = 'SET_LOADING',
 }

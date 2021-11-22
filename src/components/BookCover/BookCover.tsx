@@ -1,16 +1,16 @@
 import { Card, Button } from 'react-bootstrap';
-import { useAppDispatch } from 'src/hooks/useAppStore';
+import { connect, InferThunkActionCreatorType } from 'react-redux';
 import { Book } from 'src/store/BooksStore/Books.types';
 import { addToCart } from 'src/store/CartStore/Cart.services';
-import { CartItem } from 'src/store/CartStore/Cart.types';
+import { AddToCartAction, CartItem } from 'src/store/CartStore/Cart.types';
 import * as S from './styles';
 
 interface BookCoverProps {
     book: Book;
+    addToCart: InferThunkActionCreatorType<AddToCartAction>;
 }
 
-const BookCover: React.FC<BookCoverProps> = ({ book }) => {
-    const dispatch = useAppDispatch();
+const BookCover: React.FC<BookCoverProps> = ({ book, addToCart }) => {
     const { title, cover_url, author, pages, price, id } = book;
 
     const handleAddToCart = () => {
@@ -22,7 +22,7 @@ const BookCover: React.FC<BookCoverProps> = ({ book }) => {
             quantity: 1,
         };
 
-        dispatch(addToCart(cartItem));
+        addToCart(cartItem);
     };
 
     return (
@@ -53,4 +53,4 @@ const BookCover: React.FC<BookCoverProps> = ({ book }) => {
     );
 };
 
-export default BookCover;
+export default connect(null, { addToCart })(BookCover);

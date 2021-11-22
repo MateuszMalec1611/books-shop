@@ -2,6 +2,7 @@ import { BooksActionTypes, BooksDispatchTypes, BooksState } from './Books.types'
 
 const defaultState: BooksState = {
     books: undefined,
+    loading: false,
 };
 
 const BooksReducer = (
@@ -19,6 +20,11 @@ const BooksReducer = (
                         [action.payload.metadata.page]: action.payload.booksList,
                     },
                 },
+            };
+        case BooksActionTypes.SET_LOADING:
+            return {
+                ...state,
+                loading: action.payload ?? false,
             };
 
         default:

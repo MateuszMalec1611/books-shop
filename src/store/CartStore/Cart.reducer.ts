@@ -3,6 +3,7 @@ import { CartActionTypes, CartDispatchTypes, CartItem, CartState } from './Cart.
 const defaultState: CartState = {
     cart: [],
     totalAmount: 0,
+    loading: false,
 };
 
 const CartReducer = (
@@ -60,7 +61,10 @@ const CartReducer = (
             return { ...state, cart: updatedNewCart, totalAmount: updatedCartTotalAmount };
 
         case CartActionTypes.SEND_ORDER:
-            return { cart: [], totalAmount: 0 };
+            return { ...state, cart: [], totalAmount: 0 };
+
+        case CartActionTypes.LOADING:
+            return { ...state, loading: action.payload ?? false };
 
         default:
             return state;

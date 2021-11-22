@@ -1,18 +1,22 @@
 import { Image, Button } from 'react-bootstrap';
-import { useAppDispatch } from 'src/hooks/useAppStore';
+import { connect, InferThunkActionCreatorType } from 'react-redux';
 import { addToCart, removeCartItem } from 'src/store/CartStore/Cart.services';
-import { CartItem as CartItemType } from 'src/store/CartStore/Cart.types';
+import {
+    AddToCartAction,
+    CartItem as CartItemType,
+    RemoveCartItemAction,
+} from 'src/store/CartStore/Cart.types';
 import * as S from './styles';
 
 interface CartItemProps {
     cartItem: CartItemType;
+    addToCart: InferThunkActionCreatorType<AddToCartAction>;
+    removeCartItem: InferThunkActionCreatorType<RemoveCartItemAction>;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ cartItem }) => {
-    const dispatch = useAppDispatch();
-
-    const handleAddToCart = () => dispatch(addToCart(cartItem));
-    const handleRemoveItem = () => dispatch(removeCartItem({ ...cartItem, quantity: 1 }));
+const CartItem: React.FC<CartItemProps> = ({ cartItem, addToCart, removeCartItem }) => {
+    const handleAddToCart = () => addToCart(cartItem);
+    const handleRemoveItem = () => removeCartItem({ ...cartItem, quantity: 1 });
 
     return (
         <S.CartItemBox>
@@ -38,4 +42,4 @@ const CartItem: React.FC<CartItemProps> = ({ cartItem }) => {
     );
 };
 
-export default CartItem;
+export default connect(null, { addToCart, removeCartItem })(CartItem);

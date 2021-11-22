@@ -62,3 +62,10 @@ export const TopArrow = styled.div`
         right: 40px;
     }
 `;
+
+export const Wrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+`;

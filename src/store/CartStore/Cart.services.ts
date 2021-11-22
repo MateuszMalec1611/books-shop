@@ -1,7 +1,5 @@
-import { AxiosResponse } from 'axios';
 import { Dispatch } from 'react';
 import api from 'src/api';
-import { Book } from '../BooksStore/Books.types';
 import { CartActionTypes, CartDispatchTypes, CartItem, Order, SendOrderAction } from './Cart.types';
 
 export const addToCart = (cartItem: CartItem) => ({
@@ -17,6 +15,8 @@ export const removeCartItem = (cartItem: CartItem) => ({
 export const sendOrder: SendOrderAction =
     (order: Order) => async (dispatch: Dispatch<CartDispatchTypes>) => {
         try {
+            dispatch({ type: CartActionTypes.LOADING, payload: true });
+
             const data = await api().post(`order`, order);
             console.log(data);
             dispatch({
@@ -24,5 +24,7 @@ export const sendOrder: SendOrderAction =
             });
         } catch (err: any) {
             console.log(err);
+        } finally {
+            dispatch({ type: CartActionTypes.LOADING, payload: false });
         }
     };

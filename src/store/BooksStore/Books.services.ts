@@ -12,6 +12,7 @@ import {
 export const fetchBooks: FetchBooksAction =
     (page: number) => async (dispatch: Dispatch<BooksDispatchTypes>) => {
         try {
+            dispatch({ type: BooksActionTypes.SET_LOADING, payload: true });
             const { data }: AxiosResponse<{ data: Book[]; metadata: Metadata }> = await api().get(
                 `book?page=${page}`
             );
@@ -22,5 +23,7 @@ export const fetchBooks: FetchBooksAction =
             });
         } catch (err: any) {
             console.log(err);
+        } finally {
+            dispatch({ type: BooksActionTypes.SET_LOADING });
         }
     };
