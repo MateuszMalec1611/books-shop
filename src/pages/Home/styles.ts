@@ -1,4 +1,5 @@
 import { Col, Row } from 'react-bootstrap';
+import { device } from 'src/utils/constants';
 import styled from 'styled-components';
 
 export const BookCol = styled(Col)`
@@ -29,8 +30,8 @@ export const PaginationWrapper = styled(Row)`
             font-weight: bold;
 
             &.active {
-                border: 1px solid #212529;
                 border-radius: 50%;
+                border: 1px solid #212529;
                 background-color: #212529;
                 color: white;
             }
@@ -40,5 +41,24 @@ export const PaginationWrapper = styled(Row)`
                 color: gray;
             }
         }
+    }
+`;
+
+export const TopArrow = styled.div`
+    padding: 5px 12px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    color: white;
+    font-size: 24px;
+    border-radius: 50%;
+    border: 1px solid #212529;
+    background-color: #212529;
+    box-shadow: 4px 4px 10px black;
+    cursor: pointer;
+
+    @media ${device.tabletBreakpoint} {
+        bottom: 40px;
+        right: 40px;
     }
 `;

@@ -7,6 +7,7 @@ import { Books, FetchBooksAction } from 'src/store/BooksStore/Books.types';
 import BookCover from 'src/components/BookCover/BookCover';
 import { Container, Row } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
+import useScrollPosition from '@react-hook/window-scroll';
 import * as S from './styles';
 
 export interface HomeProps {
@@ -17,9 +18,10 @@ export interface HomeProps {
 const Home: React.FC<HomeProps> = ({ books, fetchBooks }) => {
     let navigate = useNavigate();
     let [searchParams] = useSearchParams();
+    const scrollY = useScrollPosition(60);
+    const [pageCount, setPagCount] = useState<null | number>(null);
     const getCurrentPage = searchParams.get('page');
     const page = getCurrentPage ? +getCurrentPage : 1;
-    const [pageCount, setPagCount] = useState<null | number>(null);
 
     useEffect(() => {
         if (books?.metadata)
@@ -48,6 +50,8 @@ const Home: React.FC<HomeProps> = ({ books, fetchBooks }) => {
         );
     };
 
+    const handleTop = () => window.scrollTo(0, 0);
+
     return (
         <Container fluid>
             <Row xs={1} md={2} lg={3} xl={4}>
@@ -69,6 +73,7 @@ const Home: React.FC<HomeProps> = ({ books, fetchBooks }) => {
                     />
                 </S.PaginationWrapper>
             )}
+            {scrollY > 800 && <S.TopArrow onClick={handleTop}>^</S.TopArrow>}
         </Container>
     );
 };
