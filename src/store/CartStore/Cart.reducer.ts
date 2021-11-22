@@ -59,6 +59,9 @@ const CartReducer = (
 
             return { ...state, cart: updatedNewCart, totalAmount: updatedCartTotalAmount };
 
+        case CartActionTypes.SEND_ORDER:
+            return { cart: [], totalAmount: 0 };
+
         default:
             return state;
     }

@@ -1,3 +1,5 @@
+import { ThunkAction } from 'redux-thunk';
+
 export interface CartState {
     cart: CartItem[] | [];
     totalAmount: number;
@@ -11,7 +13,20 @@ export type CartItem = {
     quantity: number;
 };
 
-export type CartDispatchTypes = AddToCart | RemoveCartItem;
+export type Order = {
+    order: {
+        id: number;
+        quantity: number;
+    }[];
+    first_name: string;
+    last_name: string;
+    city: string;
+    zip_code: string;
+};
+
+export type CartDispatchTypes = AddToCart | RemoveCartItem | SendOrder;
+
+export type SendOrderAction = (order: Order) => ThunkAction<void, CartState, {}, SendOrder>;
 
 export interface AddToCart {
     type: typeof CartActionTypes.ADD_TO_CART;
@@ -23,7 +38,12 @@ export interface RemoveCartItem {
     payload: CartItem;
 }
 
+export interface SendOrder {
+    type: typeof CartActionTypes.SEND_ORDER;
+}
+
 export enum CartActionTypes {
     ADD_TO_CART = 'ADD_TO_CART',
     REMOVE_CART_ITEM = 'REMOVE_CART_ITEM',
+    SEND_ORDER = 'SEND_ORDER',
 }
