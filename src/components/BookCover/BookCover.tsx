@@ -1,14 +1,30 @@
 import { Card, Button } from 'react-bootstrap';
+import { useAppDispatch } from 'src/hooks/useAppStore';
 import { Book } from 'src/store/BooksStore/Books.types';
+import { addToCart } from 'src/store/CartStore/Cart.services';
+import { CartItem } from 'src/store/CartStore/Cart.types';
 import * as S from './styles';
 
 interface BookCoverProps {
     book: Book;
 }
 
-const BookCover: React.FC<BookCoverProps> = ({
-    book: { title, cover_url, author, pages, price },
-}) => {
+const BookCover: React.FC<BookCoverProps> = ({ book }) => {
+    const dispatch = useAppDispatch();
+    const { title, cover_url, author, pages, price, id } = book;
+
+    const handleAddToCart = () => {
+        const cartItem: CartItem = {
+            title,
+            cover_url,
+            id,
+            price,
+            quantity: 1,
+        };
+
+        dispatch(addToCart(cartItem));
+    };
+
     return (
         <S.Book>
             <Card.Img variant="top" src={cover_url} />
@@ -29,7 +45,9 @@ const BookCover: React.FC<BookCoverProps> = ({
                         Cena: <span>{price} zł</span>
                     </Card.Text>
                 </div>
-                <Button variant="dark">dodaj do koszyka</Button>
+                <Button onClick={handleAddToCart} variant="dark">
+                    dodaj do koszyka
+                </Button>
             </S.BookBody>
         </S.Book>
     );
