@@ -1,7 +1,25 @@
-import { Container } from 'react-bootstrap';
+import { connect, InferThunkActionCreatorType } from 'react-redux';
+import { RootState } from 'src/store/Store';
+import { fetchBooks } from 'src/store/BooksStore/Books.services';
+import { Books, FetchBooksAction } from 'src/store/BooksStore/Books.types';
+import { useEffect } from 'react';
 
-const Home = () => {
-    return <div>ds</div>;
+export interface HomeProps {
+    books?: Books;
+    fetchBooks: InferThunkActionCreatorType<FetchBooksAction>;
+}
+
+const Home: React.FC<HomeProps> = ({ books, fetchBooks }) => {
+    console.log(books);
+    useEffect(() => {
+        fetchBooks();
+    }, [fetchBooks]);
+
+    return <div>Home</div>;
 };
 
-export default Home;
+const mapStateToProps = (state: RootState) => ({
+    books: state.booksStore.books,
+});
+
+export default connect(mapStateToProps, { fetchBooks })(Home);
