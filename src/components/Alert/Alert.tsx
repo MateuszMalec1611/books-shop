@@ -6,12 +6,10 @@ interface AlertProps {
     space?: boolean;
 }
 
-const Alert: React.FC<AlertProps> = ({ variant, space, children }) => {
-    return (
-        <S.Wrapper space={space}>
-            <AlertComponent variant={variant}>{children}</AlertComponent>
-        </S.Wrapper>
-    );
-};
+const Alert: React.FC<AlertProps> = ({ variant, space, children }) => (
+    <S.Wrapper space={space}>
+        <AlertComponent variant={variant}>{children}</AlertComponent>
+    </S.Wrapper>
+);
 
 export default Alert;

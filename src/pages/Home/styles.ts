@@ -3,9 +3,9 @@ import { device } from 'src/utils/constants';
 import styled from 'styled-components';
 
 export const BookCol = styled(Col)`
+    margin: 20px 0;
     display: flex;
     justify-content: center;
-    margin: 20px 0;
 `;
 
 export const PaginationWrapper = styled(Row)`

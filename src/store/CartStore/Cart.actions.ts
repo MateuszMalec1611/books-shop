@@ -16,12 +16,8 @@ import {
 
 export type HandleOrderAction = (order: Order) => ThunkAction<void, CartState, {}, HandleOrder>;
 export type AddToCartAction = (order: CartItem) => ThunkAction<void, CartState, {}, AddToCart>;
-export type RemoveCartItemAction = (
-    order: CartItem
-) => ThunkAction<void, CartState, {}, RemoveCartItem>;
-export type SetOnSuccessCartAction = (
-    state?: boolean
-) => ThunkAction<void, CartState, {}, SetOnSuccess>;
+export type RemoveCartItemAction = (order: CartItem) => ThunkAction<void, CartState, {}, RemoveCartItem>;
+export type SetOnSuccessCartAction = (state?: boolean) => ThunkAction<void, CartState, {}, SetOnSuccess>;
 
 export const addToCart = (cartItem: CartItem) => ({
     type: CartActionTypes.ADD_TO_CART,
