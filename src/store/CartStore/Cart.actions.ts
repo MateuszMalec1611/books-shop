@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { Dispatch } from 'react';
 import { ThunkAction } from 'redux-thunk';
 import { sendOrder } from './Cart.services';
@@ -31,11 +32,11 @@ export const removeCartItem = (cartItem: CartItem) => ({
 export const handleOrder: HandleOrderAction =
     (order: Order) => async (dispatch: Dispatch<CartDispatchTypes>) => {
         try {
-            dispatch({ type: CartActionTypes.SET_ERROR });
+            dispatch({ type: CartActionTypes.SET_CART_ERROR });
             dispatch({ type: CartActionTypes.SET_LOADING, payload: true });
 
-            const data = await sendOrder(order);
-            console.log(data);
+            const data: AxiosResponse<{ statusText: string }> = await sendOrder(order);
+            console.log(data.statusText);
 
             dispatch({
                 type: CartActionTypes.HANDLE_ORDER,
@@ -43,11 +44,11 @@ export const handleOrder: HandleOrderAction =
         } catch (err: any) {
             if (err?.response?.data?.error?.message) {
                 dispatch({
-                    type: CartActionTypes.SET_ERROR,
+                    type: CartActionTypes.SET_CART_ERROR,
                     payload: err.response.data.error.message,
                 });
             } else {
-                dispatch({ type: CartActionTypes.SET_ERROR, payload: err.message });
+                dispatch({ type: CartActionTypes.SET_CART_ERROR, payload: err.message });
             }
         } finally {
             dispatch({ type: CartActionTypes.SET_LOADING, payload: false });

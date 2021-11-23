@@ -53,13 +53,6 @@ const OrderForm: React.FC<OrderFormProps> = ({
         handleOrder(order);
     };
 
-    const handleName = ({ target }: React.ChangeEvent<HTMLInputElement>) => setName(target.value);
-    const handleLastName = ({ target }: React.ChangeEvent<HTMLInputElement>) =>
-        setLastName(target.value);
-    const handleCity = ({ target }: React.ChangeEvent<HTMLInputElement>) => setCity(target.value);
-    const handleZipCode = ({ target }: React.ChangeEvent<HTMLInputElement>) =>
-        setZipCode(target.value);
-
     return (
         <>
             {!loading && (
@@ -69,9 +62,12 @@ const OrderForm: React.FC<OrderFormProps> = ({
                         <Form.Group className="mb-3">
                             <Form.Label>Imię</Form.Label>
                             <Form.Control
-                                {...register('firstName', { required: true })}
-                                onChange={handleName}
-                                value={name}
+                                {...register('firstName', {
+                                    required: true,
+                                    value: name,
+                                    onChange: ({ target }: React.ChangeEvent<HTMLInputElement>) =>
+                                        setName(target.value),
+                                })}
                                 type="text"
                                 isInvalid={errors.firstName}
                             />
@@ -82,9 +78,12 @@ const OrderForm: React.FC<OrderFormProps> = ({
                         <Form.Group className="mb-3">
                             <Form.Label>Nazwisko</Form.Label>
                             <Form.Control
-                                {...register('lastName', { required: true })}
-                                onChange={handleLastName}
-                                value={lastName}
+                                {...register('lastName', {
+                                    required: true,
+                                    value: lastName,
+                                    onChange: ({ target }: React.ChangeEvent<HTMLInputElement>) =>
+                                        setLastName(target.value),
+                                })}
                                 type="text"
                                 isInvalid={errors.lastName}
                             />
@@ -95,9 +94,12 @@ const OrderForm: React.FC<OrderFormProps> = ({
                         <Form.Group className="mb-3">
                             <Form.Label>Miejscowość</Form.Label>
                             <Form.Control
-                                {...register('cityName', { required: true })}
-                                onChange={handleCity}
-                                value={city}
+                                {...register('cityName', {
+                                    required: true,
+                                    value: city,
+                                    onChange: ({ target }: React.ChangeEvent<HTMLInputElement>) =>
+                                        setCity(target.value),
+                                })}
                                 type="text"
                                 isInvalid={errors.cityName}
                             />
@@ -108,9 +110,12 @@ const OrderForm: React.FC<OrderFormProps> = ({
                         <Form.Group className="mb-3">
                             <Form.Label>Kod pocztowy</Form.Label>
                             <Form.Control
-                                {...register('zipCode', { required: true })}
-                                onChange={handleZipCode}
-                                value={zipCode}
+                                {...register('zipCode', {
+                                    required: true,
+                                    value: zipCode,
+                                    onChange: ({ target }: React.ChangeEvent<HTMLInputElement>) =>
+                                        setZipCode(target.value),
+                                })}
                                 type="text"
                                 isInvalid={errors.zipCode}
                             />
@@ -129,11 +134,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
                 </S.FormWrapper>
             )}
             {loading && <Loader />}
-            {error && !loading && (
-                <Alert space={false} variant="danger">
-                    {error}
-                </Alert>
-            )}
+            {!!error && !loading && <Alert variant="danger">{error}</Alert>}
         </>
     );
 };

@@ -14,7 +14,7 @@ export interface SetLoading {
 }
 
 export interface SetError {
-    type: BooksActionTypes.SET_ERROR;
+    type: BooksActionTypes.SET_BOOKS_ERROR;
     payload?: string;
 }
 
@@ -44,5 +44,5 @@ export type Metadata = {
 export enum BooksActionTypes {
     SET_BOOKS = 'SET_BOOKS',
     SET_LOADING = 'SET_LOADING',
-    SET_ERROR = 'SET_ERROR',
+    SET_BOOKS_ERROR = 'SET_BOOKS_ERROR',
 }

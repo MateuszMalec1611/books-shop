@@ -46,7 +46,7 @@ export interface SendLoading {
 }
 
 export interface SendError {
-    type: CartActionTypes.SET_ERROR;
+    type: CartActionTypes.SET_CART_ERROR;
     payload?: string;
 }
 
@@ -55,5 +55,5 @@ export enum CartActionTypes {
     REMOVE_CART_ITEM = 'REMOVE_CART_ITEM',
     HANDLE_ORDER = 'HANDLE_ORDER',
     SET_LOADING = 'SET_LOADING',
-    SET_ERROR = 'SET_ERROR',
+    SET_CART_ERROR = 'SET_CART_ERROR',
 }

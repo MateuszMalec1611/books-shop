@@ -27,6 +27,7 @@ const Home: React.FC<HomeProps> = ({ books, loading, error, setBooks }) => {
     const [pageCount, setPagCount] = useState<null | number>(null);
     const getCurrentPage = searchParams.get('page');
     const page = getCurrentPage ? +getCurrentPage : 1;
+    console.log(error);
 
     useEffect(() => {
         if (books?.metadata)
@@ -81,10 +82,16 @@ const Home: React.FC<HomeProps> = ({ books, loading, error, setBooks }) => {
                 </S.PaginationWrapper>
             )}
             {!loading && !booksList?.length && !error && (
-                <Alert variant="warning">Obecnie nie posiadamy żadnych ksiązek w sprzedaży</Alert>
+                <Alert space={true} variant="warning">
+                    Obecnie nie posiadamy żadnych ksiązek w sprzedaży
+                </Alert>
             )}
             {loading && <Loader />}
-            {error && !loading && <Alert variant="danger">{error}</Alert>}
+            {!!error && !loading && (
+                <Alert space={true} variant="danger">
+                    {error}
+                </Alert>
+            )}
             {scrollY > 800 && <S.TopArrow onClick={handleTop}>^</S.TopArrow>}
         </Container>
     );

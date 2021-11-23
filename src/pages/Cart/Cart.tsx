@@ -30,7 +30,11 @@ const Cart: React.FC<CartProps> = () => {
                     </S.SummaryBox>
                 </S.CartWrapper>
             )}
-            {!cartItems.length && <Alert variant="warning">Twój koszyk jest pusty</Alert>}
+            {!cartItems.length && (
+                <Alert space={true} variant="warning">
+                    Twój koszyk jest pusty
+                </Alert>
+            )}
         </>
     );
 };

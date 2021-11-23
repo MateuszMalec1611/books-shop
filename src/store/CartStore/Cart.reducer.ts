@@ -66,7 +66,7 @@ const CartReducer = (
 
         case CartActionTypes.SET_LOADING:
             return { ...state, loading: action.payload ?? false };
-        case CartActionTypes.SET_ERROR:
+        case CartActionTypes.SET_CART_ERROR:
             return { ...state, error: action.payload ?? undefined };
 
         default:
