@@ -27,7 +27,7 @@ const BooksReducer = (
                 ...state,
                 loading: action.payload ?? false,
             };
-        case BooksActionTypes.SET_ERROR:
+        case BooksActionTypes.SET_BOOKS_ERROR:
             return {
                 ...state,
                 error: action.payload ?? undefined,

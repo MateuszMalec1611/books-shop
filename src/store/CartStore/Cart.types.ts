@@ -3,6 +3,7 @@ export interface CartState {
     totalAmount: number;
     loading: boolean;
     error?: string;
+    onSuccess?: boolean;
 }
 
 export type CartItem = {
@@ -24,7 +25,13 @@ export type Order = {
     zip_code: string;
 };
 
-export type CartDispatchTypes = AddToCart | RemoveCartItem | HandleOrder | SendLoading | SendError;
+export type CartDispatchTypes =
+    | AddToCart
+    | RemoveCartItem
+    | HandleOrder
+    | SetLoading
+    | SetError
+    | SetOnSuccess;
 
 export interface AddToCart {
     type: CartActionTypes.ADD_TO_CART;
@@ -40,14 +47,18 @@ export interface HandleOrder {
     type: CartActionTypes.HANDLE_ORDER;
 }
 
-export interface SendLoading {
+export interface SetLoading {
     type: CartActionTypes.SET_LOADING;
     payload?: boolean;
 }
 
-export interface SendError {
-    type: CartActionTypes.SET_ERROR;
+export interface SetError {
+    type: CartActionTypes.SET_CART_ERROR;
     payload?: string;
+}
+export interface SetOnSuccess {
+    type: CartActionTypes.SET_ON_SUCCESS;
+    payload?: boolean;
 }
 
 export enum CartActionTypes {
@@ -55,5 +66,6 @@ export enum CartActionTypes {
     REMOVE_CART_ITEM = 'REMOVE_CART_ITEM',
     HANDLE_ORDER = 'HANDLE_ORDER',
     SET_LOADING = 'SET_LOADING',
-    SET_ERROR = 'SET_ERROR',
+    SET_CART_ERROR = 'SET_CART_ERROR',
+    SET_ON_SUCCESS = 'SET_ON_SUCCESS',
 }
