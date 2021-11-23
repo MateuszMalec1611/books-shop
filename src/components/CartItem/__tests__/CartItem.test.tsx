@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { cartItemGenerator } from '../../../mocks/books';
+import { cartItemGenerator } from 'src/mocks/cart';
 import { CartItemProps } from '../CartItem';
 import CartItem from '../CartItem';
 import store from 'src/store/Store';

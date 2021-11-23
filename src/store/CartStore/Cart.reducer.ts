@@ -1,6 +1,6 @@
 import { CartActionTypes, CartDispatchTypes, CartItem, CartState } from './Cart.types';
 
-const defaultState: CartState = {
+export const defaultState: CartState = {
     cart: [],
     totalAmount: 0,
     totalQuantity: 0,
@@ -9,11 +9,11 @@ const defaultState: CartState = {
     onSuccess: undefined,
 };
 
-const CartReducer = (
+export const CartReducer = (
     state: CartState = defaultState,
-    action: CartDispatchTypes
+    action?: CartDispatchTypes
 ): typeof defaultState => {
-    switch (action.type) {
+    switch (action?.type) {
         case CartActionTypes.ADD_TO_CART:
             const updatedTotalAmount = state.totalAmount + action.payload.price;
             const updatedTotalQuantity = state.totalQuantity + 1;
@@ -69,7 +69,6 @@ const CartReducer = (
 
         case CartActionTypes.HANDLE_ORDER:
             return { ...state, cart: [], totalAmount: 0 };
-
         case CartActionTypes.SET_LOADING:
             return { ...state, loading: action.payload ?? false };
         case CartActionTypes.SET_CART_ERROR:
