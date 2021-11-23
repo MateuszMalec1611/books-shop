@@ -15,8 +15,7 @@ const CartReducer = (
 ): typeof defaultState => {
     switch (action.type) {
         case CartActionTypes.ADD_TO_CART:
-            const updatedTotalAmount =
-                state.totalAmount + action.payload.quantity * action.payload.price;
+            const updatedTotalAmount = state.totalAmount + action.payload.price;
             const updatedTotalQuantity = state.totalQuantity + 1;
 
             const existingCartItemIndex = state.cart.findIndex(
