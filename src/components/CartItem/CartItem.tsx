@@ -5,7 +5,7 @@ import { addToCart, removeCartItem } from 'src/store/CartStore/Cart.actions';
 import { CartItem as CartItemType } from 'src/store/CartStore/Cart.types';
 import * as S from './styles';
 
-interface CartItemProps {
+export interface CartItemProps {
     cartItem: CartItemType;
     addToCart: InferThunkActionCreatorType<AddToCartAction>;
     removeCartItem: InferThunkActionCreatorType<RemoveCartItemAction>;
@@ -21,7 +21,7 @@ const CartItem: React.FC<CartItemProps> = ({ cartItem, addToCart, removeCartItem
                 <Image src={cartItem.cover_url} thumbnail />
             </S.ImageBox>
             <S.ContentBox>
-                <h2>{cartItem.title}</h2>
+                <h2 data-testid="CartItem_Title">{cartItem.title}</h2>
                 <S.ButtonsBox>
                     <Button onClick={handleRemoveItem} variant="danger">
                         -
