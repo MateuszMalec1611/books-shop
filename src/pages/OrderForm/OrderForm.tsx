@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { connect, InferThunkActionCreatorType } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import Loader from 'src/components/Loader/Loader';
 import { HandleOrderAction } from 'src/store/CartStore/Cart.actions';
 import { handleOrder } from 'src/store/CartStore/Cart.actions';
@@ -28,6 +29,13 @@ const OrderForm: React.FC<OrderFormProps> = ({
     const [lastName, setLastName] = useState('');
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState('');
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        mode: 'onBlur',
+    });
 
     const handleOrderAction = () => {
         const orderedItems = orders.map(order => ({
@@ -54,38 +62,78 @@ const OrderForm: React.FC<OrderFormProps> = ({
 
     return (
         <>
-            {!loading  && (
+            {!loading && (
                 <S.FormWrapper>
                     <h2>Składanie zamówienia</h2>
                     <S.FormBox>
                         <Form.Group className="mb-3">
                             <Form.Label>Imię</Form.Label>
-                            <Form.Control onChange={handleName} value={name} type="text" />
+                            <Form.Control
+                                {...register('firstName', { required: true })}
+                                onChange={handleName}
+                                value={name}
+                                type="text"
+                                isInvalid={errors.firstName}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Proszę podaj prawidłowe imię (minimum 1 znak)
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Nazwisko</Form.Label>
-                            <Form.Control onChange={handleLastName} value={lastName} type="text" />
+                            <Form.Control
+                                {...register('lastName', { required: true })}
+                                onChange={handleLastName}
+                                value={lastName}
+                                type="text"
+                                isInvalid={errors.lastName}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Proszę podaj prawidłowe nazwisko (minimum 1 znak)
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Miejscowość</Form.Label>
-                            <Form.Control onChange={handleCity} value={city} type="text" />
+                            <Form.Control
+                                {...register('cityName', { required: true })}
+                                onChange={handleCity}
+                                value={city}
+                                type="text"
+                                isInvalid={errors.cityName}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Proszę podaj prawidłową miejscowość (minimum 1 znak)
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Kod pocztowy</Form.Label>
-                            <Form.Control onChange={handleZipCode} value={zipCode} type="text" />
+                            <Form.Control
+                                {...register('zipCode', { required: true })}
+                                onChange={handleZipCode}
+                                value={zipCode}
+                                type="text"
+                                isInvalid={errors.zipCode}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Proszę podaj prawidłowy kod pocztowy
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </S.FormBox>
                     <S.SummaryBox>
                         <h3>Całkowita kwota:</h3>
                         <p>{totalAmount} zł</p>
-                        <Button onClick={handleOrderAction} variant="success">
+                        <Button onClick={handleSubmit(handleOrderAction)} variant="success">
                             ZAMAWIAM I PŁACĘ
                         </Button>
                     </S.SummaryBox>
                 </S.FormWrapper>
             )}
             {loading && <Loader />}
-            {error && !loading && <Alert space={false} variant="danger">{error}</Alert>}
+            {error && !loading && (
+                <Alert space={false} variant="danger">
+                    {error}
+                </Alert>
+            )}
         </>
     );
 };
