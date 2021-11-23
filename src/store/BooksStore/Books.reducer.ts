@@ -1,16 +1,16 @@
 import { BooksActionTypes, BooksDispatchTypes, BooksState } from './Books.types';
 
-const defaultState: BooksState = {
+export const defaultState: BooksState = {
     books: undefined,
     loading: false,
     error: undefined,
 };
 
-const BooksReducer = (
+export const BooksReducer = (
     state: BooksState = defaultState,
-    action: BooksDispatchTypes
+    action?: BooksDispatchTypes
 ): typeof defaultState => {
-    switch (action.type) {
+    switch (action?.type) {
         case BooksActionTypes.SET_BOOKS:
             return {
                 ...state,
