@@ -1,8 +1,8 @@
 const size = {
-    mobileBreakpoint: '600px',
-    tabletBreakpoint: '900px',
+    mobileBreakpoint: '768px',
+    tabletBreakpoint: '992px',
     desktopBreakpoint: '1200px',
-    largeDesktopBreakpoint: '1536px',
+    largeDesktopBreakpoint: '1400px',
 };
 
 export const device = {
