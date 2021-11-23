@@ -1,6 +1,7 @@
 export interface CartState {
     cart: CartItem[] | [];
     totalAmount: number;
+    totalQuantity: number;
     loading: boolean;
     error?: string;
     onSuccess?: boolean;

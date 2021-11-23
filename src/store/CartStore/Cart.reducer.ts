@@ -3,6 +3,7 @@ import { CartActionTypes, CartDispatchTypes, CartItem, CartState } from './Cart.
 const defaultState: CartState = {
     cart: [],
     totalAmount: 0,
+    totalQuantity: 0,
     loading: false,
     error: undefined,
     onSuccess: undefined,
@@ -16,6 +17,7 @@ const CartReducer = (
         case CartActionTypes.ADD_TO_CART:
             const updatedTotalAmount =
                 state.totalAmount + action.payload.quantity * action.payload.price;
+            const updatedTotalQuantity = state.totalQuantity + 1;
 
             const existingCartItemIndex = state.cart.findIndex(
                 item => item.id === action.payload.id
@@ -38,10 +40,12 @@ const CartReducer = (
                 ...state,
                 cart: updatedCart,
                 totalAmount: updatedTotalAmount,
+                totalQuantity: updatedTotalQuantity,
             };
 
         case CartActionTypes.REMOVE_CART_ITEM:
             const updatedCartTotalAmount = state.totalAmount - action.payload.price;
+            const updatedCartTotalQuantity = state.totalQuantity - 1;
 
             const existingCartItemToRemoveIndex = state.cart.findIndex(
                 item => item.id === action.payload.id
@@ -60,7 +64,12 @@ const CartReducer = (
                 updatedNewCart[existingCartItemToRemoveIndex] = updatedItem;
             }
 
-            return { ...state, cart: updatedNewCart, totalAmount: updatedCartTotalAmount };
+            return {
+                ...state,
+                cart: updatedNewCart,
+                totalAmount: updatedCartTotalAmount,
+                totalQuantity: updatedCartTotalQuantity,
+            };
 
         case CartActionTypes.HANDLE_ORDER:
             return { ...state, cart: [], totalAmount: 0 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card, Button, Alert } from 'react-bootstrap';
 import { connect, InferThunkActionCreatorType } from 'react-redux';
+import { useAppSelector } from 'src/hooks/useAppStore';
 import { Book } from 'src/store/BooksStore/Books.types';
 import { AddToCartAction } from 'src/store/CartStore/Cart.actions';
 import { addToCart } from 'src/store/CartStore/Cart.actions';
@@ -15,6 +16,9 @@ interface BookCoverProps {
 const BookCover: React.FC<BookCoverProps> = ({ book, addToCart }) => {
     const [added, setAdded] = useState(false);
     const { title, cover_url, author, pages, price, id } = book;
+    const cart = useAppSelector(state => state.cartStore.cart);
+
+    const isInCart = cart?.find(item => item.id === id);
 
     const handleAddToCart = () => {
         const cartItem: CartItem = {
@@ -33,7 +37,7 @@ const BookCover: React.FC<BookCoverProps> = ({ book, addToCart }) => {
         if (added) {
             const addedTimeout = setTimeout(() => {
                 setAdded(false);
-            }, 500);
+            }, 800);
 
             return () => clearTimeout(addedTimeout);
         }
@@ -60,8 +64,11 @@ const BookCover: React.FC<BookCoverProps> = ({ book, addToCart }) => {
                             Cena: <span>{price} zł</span>
                         </Card.Text>
                     </div>
-                    <Button onClick={handleAddToCart} variant="dark">
-                        dodaj do koszyka
+                    <Button
+                        disabled={!!isInCart}
+                        onClick={handleAddToCart}
+                        variant={!!isInCart ? 'secondary' : 'dark'}>
+                        {!!isInCart ? 'dodano do koszyka' : 'dodaj do koszyka'}
                     </Button>
                 </S.BookBody>
             </S.Book>
