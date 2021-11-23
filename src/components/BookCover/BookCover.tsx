@@ -1,8 +1,9 @@
 import { Card, Button } from 'react-bootstrap';
 import { connect, InferThunkActionCreatorType } from 'react-redux';
 import { Book } from 'src/store/BooksStore/Books.types';
-import { addToCart } from 'src/store/CartStore/Cart.services';
-import { AddToCartAction, CartItem } from 'src/store/CartStore/Cart.types';
+import { AddToCartAction } from 'src/store/CartStore/Cart.actions';
+import { addToCart } from 'src/store/CartStore/Cart.actions';
+import { CartItem } from 'src/store/CartStore/Cart.types';
 import * as S from './styles';
 
 interface BookCoverProps {

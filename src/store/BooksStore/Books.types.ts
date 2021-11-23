@@ -1,5 +1,3 @@
-import { ThunkAction } from 'redux-thunk';
-
 export interface BooksState {
     books?: Books;
     loading: boolean;
@@ -15,8 +13,6 @@ export interface SetLoading {
 }
 
 export type BooksDispatchTypes = SetBooks | SetLoading;
-
-export type FetchBooksAction = (page: number) => ThunkAction<void, BooksState, {}, SetBooks>;
 
 export type Books = {
     booksList: { [key: number]: Book[] };

@@ -2,22 +2,23 @@ import { useEffect, useState } from 'react';
 import { connect, InferThunkActionCreatorType } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { RootState } from 'src/store/Store';
-import { fetchBooks } from 'src/store/BooksStore/Books.services';
-import { Books, FetchBooksAction } from 'src/store/BooksStore/Books.types';
+import { setBooks } from 'src/store/BooksStore/Books.actions';
+import { Books } from 'src/store/BooksStore/Books.types';
 import BookCover from 'src/components/BookCover/BookCover';
 import { Alert, Container, Row } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 import useScrollPosition from '@react-hook/window-scroll';
-import * as S from './styles';
 import Loader from 'src/components/Loader/Loader';
+import { SetBooksAction } from 'src/store/BooksStore/Books.actions';
+import * as S from './styles';
 
 export interface HomeProps {
     books?: Books;
     loading: boolean;
-    fetchBooks: InferThunkActionCreatorType<FetchBooksAction>;
+    setBooks: InferThunkActionCreatorType<SetBooksAction>;
 }
 
-const Home: React.FC<HomeProps> = ({ books, loading, fetchBooks }) => {
+const Home: React.FC<HomeProps> = ({ books, loading, setBooks }) => {
     let navigate = useNavigate();
     let [searchParams] = useSearchParams();
     const scrollY = useScrollPosition(60);
@@ -33,8 +34,8 @@ const Home: React.FC<HomeProps> = ({ books, loading, fetchBooks }) => {
     }, [books?.metadata]);
 
     useEffect(() => {
-        if (!books?.booksList[page]) fetchBooks(page);
-    }, [books?.booksList, fetchBooks, page]);
+        if (!books?.booksList[page]) setBooks(page);
+    }, [books?.booksList, page, setBooks]);
 
     const booksList = books?.booksList[page]?.map(book => (
         <S.BookCol key={book.id}>
@@ -95,4 +96,4 @@ const mapStateToProps = (state: RootState) => ({
     loading: state.booksStore.loading,
 });
 
-export default connect(mapStateToProps, { fetchBooks })(Home);
+export default connect(mapStateToProps, { setBooks })(Home);

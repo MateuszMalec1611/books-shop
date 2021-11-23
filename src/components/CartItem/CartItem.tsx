@@ -1,11 +1,8 @@
 import { Image, Button } from 'react-bootstrap';
 import { connect, InferThunkActionCreatorType } from 'react-redux';
-import { addToCart, removeCartItem } from 'src/store/CartStore/Cart.services';
-import {
-    AddToCartAction,
-    CartItem as CartItemType,
-    RemoveCartItemAction,
-} from 'src/store/CartStore/Cart.types';
+import { AddToCartAction, RemoveCartItemAction } from 'src/store/CartStore/Cart.actions';
+import { addToCart, removeCartItem } from 'src/store/CartStore/Cart.actions';
+import { CartItem as CartItemType } from 'src/store/CartStore/Cart.types';
 import * as S from './styles';
 
 interface CartItemProps {

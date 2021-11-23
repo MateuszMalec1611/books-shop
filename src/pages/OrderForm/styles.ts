@@ -23,4 +23,3 @@ export const SummaryBox = styled.div`
         font-size: 20px;
     }
 `;
-

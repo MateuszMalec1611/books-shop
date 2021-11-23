@@ -60,7 +60,7 @@ const CartReducer = (
 
             return { ...state, cart: updatedNewCart, totalAmount: updatedCartTotalAmount };
 
-        case CartActionTypes.SEND_ORDER:
+        case CartActionTypes.HANDLE_ORDER:
             return { ...state, cart: [], totalAmount: 0 };
 
         case CartActionTypes.LOADING:

@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { connect, InferThunkActionCreatorType } from 'react-redux';
 import Loader from 'src/components/Loader/Loader';
-import { sendOrder } from 'src/store/CartStore/Cart.services';
-import { CartItem, Order, SendOrderAction } from 'src/store/CartStore/Cart.types';
+import { HandleOrderAction } from 'src/store/CartStore/Cart.actions';
+import { handleOrder } from 'src/store/CartStore/Cart.actions';
+import { CartItem, Order } from 'src/store/CartStore/Cart.types';
 import { RootState } from 'src/store/Store';
 import * as S from './styles';
 
@@ -11,15 +12,16 @@ interface OrderFormProps {
     orders: CartItem[];
     totalAmount: number;
     loading: boolean;
-    sendOrder: InferThunkActionCreatorType<SendOrderAction>;
+    handleOrder: InferThunkActionCreatorType<HandleOrderAction>;
 }
 
-const OrderForm: React.FC<OrderFormProps> = ({ orders, totalAmount, loading, sendOrder }) => {
+const OrderForm: React.FC<OrderFormProps> = ({ orders, totalAmount, loading, handleOrder }) => {
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState('');
-    const handleOrder = () => {
+
+    const handleOrderAction = () => {
         const orderedItems = orders.map(order => ({
             id: order.id,
             quantity: order.quantity,
@@ -32,7 +34,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ orders, totalAmount, loading, sen
             city: city,
             zip_code: zipCode,
         };
-        sendOrder(order);
+        handleOrder(order);
     };
 
     const handleName = ({ target }: React.ChangeEvent<HTMLInputElement>) => setName(target.value);
@@ -68,7 +70,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ orders, totalAmount, loading, sen
                     <S.SummaryBox>
                         <h3>Całkowita kwota:</h3>
                         <p>{totalAmount} zł</p>
-                        <Button onClick={handleOrder} variant="success">
+                        <Button onClick={handleOrderAction} variant="success">
                             ZAMAWIAM I PŁACĘ
                         </Button>
                     </S.SummaryBox>
@@ -84,4 +86,4 @@ const mapStateToProps = (state: RootState) => ({
     orders: state.cartStore.cart,
     loading: state.cartStore.loading,
 });
-export default connect(mapStateToProps, { sendOrder })(OrderForm);
+export default connect(mapStateToProps, { handleOrder })(OrderForm);
