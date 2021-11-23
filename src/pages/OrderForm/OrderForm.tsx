@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { connect, InferThunkActionCreatorType } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import Loader from 'src/components/Loader/Loader';
-import { HandleOrderAction } from 'src/store/CartStore/Cart.actions';
-import { handleOrder } from 'src/store/CartStore/Cart.actions';
+import { HandleOrderAction, SetOnSuccessCartAction } from 'src/store/CartStore/Cart.actions';
+import { handleOrder, setOnSuccessState } from 'src/store/CartStore/Cart.actions';
 import { CartItem, Order } from 'src/store/CartStore/Cart.types';
 import { RootState } from 'src/store/Store';
 import Alert from 'src/components/Alert/Alert';
@@ -15,7 +16,9 @@ interface OrderFormProps {
     totalAmount: number;
     loading: boolean;
     error?: string;
+    onSuccess?: boolean;
     handleOrder: InferThunkActionCreatorType<HandleOrderAction>;
+    setOnSuccessState: InferThunkActionCreatorType<SetOnSuccessCartAction>;
 }
 
 const OrderForm: React.FC<OrderFormProps> = ({
@@ -23,8 +26,11 @@ const OrderForm: React.FC<OrderFormProps> = ({
     totalAmount,
     loading,
     error,
+    onSuccess,
     handleOrder,
+    setOnSuccessState,
 }) => {
+    let navigate = useNavigate();
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
     const [city, setCity] = useState('');
@@ -53,9 +59,20 @@ const OrderForm: React.FC<OrderFormProps> = ({
         handleOrder(order);
     };
 
+    useEffect(() => {
+        if (onSuccess) {
+            const redirectTimeout = setTimeout(() => {
+                setOnSuccessState();
+                navigate('/', { replace: true });
+            }, 1500);
+
+            return () => clearTimeout(redirectTimeout);
+        }
+    }, [navigate, onSuccess, setOnSuccessState]);
+
     return (
         <>
-            {!loading && (
+            {!loading && !onSuccess && (
                 <S.FormWrapper>
                     <h2>Składanie zamówienia</h2>
                     <S.FormBox>
@@ -135,6 +152,11 @@ const OrderForm: React.FC<OrderFormProps> = ({
             )}
             {loading && <Loader />}
             {!!error && !loading && <Alert variant="danger">{error}</Alert>}
+            {!loading && onSuccess && (
+                <Alert space={true} variant="success">
+                    Pomyślnie złożono zamówienie
+                </Alert>
+            )}
         </>
     );
 };
@@ -144,5 +166,6 @@ const mapStateToProps = (state: RootState) => ({
     orders: state.cartStore.cart,
     loading: state.cartStore.loading,
     error: state.cartStore.error,
+    onSuccess: state.cartStore.onSuccess,
 });
-export default connect(mapStateToProps, { handleOrder })(OrderForm);
+export default connect(mapStateToProps, { handleOrder, setOnSuccessState })(OrderForm);

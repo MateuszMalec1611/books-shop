@@ -27,7 +27,6 @@ const Home: React.FC<HomeProps> = ({ books, loading, error, setBooks }) => {
     const [pageCount, setPagCount] = useState<null | number>(null);
     const getCurrentPage = searchParams.get('page');
     const page = getCurrentPage ? +getCurrentPage : 1;
-    console.log(error);
 
     useEffect(() => {
         if (books?.metadata)
