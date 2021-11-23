@@ -51,6 +51,7 @@ export const SuccesAlertBox = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
     z-index: 100;
     animation: ${show} 0.1s ease-in;
 `;
