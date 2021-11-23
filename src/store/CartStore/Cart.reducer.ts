@@ -18,19 +18,18 @@ const CartReducer = (
             const updatedTotalAmount = state.totalAmount + action.payload.price;
             const updatedTotalQuantity = state.totalQuantity + 1;
 
-            const existingCartItemIndex = state.cart.findIndex(
-                item => item.id === action.payload.id
-            );
-            const existingCartItem = state.cart[existingCartItemIndex];
-            let updatedCart: CartItem[] = [];
+            const itemExist = state.cart.find(item => item.id === action.payload.id);
 
-            if (existingCartItem) {
-                const updatedItem = {
-                    ...existingCartItem,
-                    quantity: existingCartItem.quantity + 1,
-                };
-                updatedCart = [...state.cart!];
-                updatedCart[existingCartItemIndex] = updatedItem;
+            let updatedCart: CartItem[] = [];
+            if (itemExist) {
+                updatedCart = state.cart.map(item => {
+                    if (item.id === action.payload.id)
+                        return {
+                            ...item,
+                            quantity: item.quantity + 1,
+                        };
+                    return item;
+                });
             } else {
                 updatedCart = [...state.cart, action.payload];
             }
@@ -46,21 +45,19 @@ const CartReducer = (
             const updatedCartTotalAmount = state.totalAmount - action.payload.price;
             const updatedCartTotalQuantity = state.totalQuantity - 1;
 
-            const existingCartItemToRemoveIndex = state.cart.findIndex(
-                item => item.id === action.payload.id
-            );
-            const existingCartItemToRemove = state.cart[existingCartItemToRemoveIndex];
             let updatedNewCart: CartItem[] = [];
 
-            if (existingCartItemToRemove.quantity === 1) {
+            if (action.payload.quantity === 1) {
                 updatedNewCart = state.cart.filter(item => item.id !== action.payload.id);
             } else {
-                const updatedItem = {
-                    ...existingCartItemToRemove,
-                    quantity: existingCartItemToRemove.quantity - 1,
-                };
-                updatedNewCart = [...state.cart];
-                updatedNewCart[existingCartItemToRemoveIndex] = updatedItem;
+                updatedNewCart = state.cart.map(item => {
+                    if (item.id === action.payload.id)
+                        return {
+                            ...item,
+                            quantity: item.quantity - 1,
+                        };
+                    return item;
+                });
             }
 
             return {

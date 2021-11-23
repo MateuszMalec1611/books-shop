@@ -13,7 +13,7 @@ export interface CartItemProps {
 
 const CartItem: React.FC<CartItemProps> = ({ cartItem, addToCart, removeCartItem }) => {
     const handleAddToCart = () => addToCart(cartItem);
-    const handleRemoveItem = () => removeCartItem({ ...cartItem, quantity: 1 });
+    const handleRemoveItem = () => removeCartItem(cartItem);
 
     return (
         <S.CartItemBox>
