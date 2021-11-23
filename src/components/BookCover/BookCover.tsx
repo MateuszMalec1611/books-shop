@@ -1,4 +1,5 @@
-import { Card, Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Card, Button, Alert } from 'react-bootstrap';
 import { connect, InferThunkActionCreatorType } from 'react-redux';
 import { Book } from 'src/store/BooksStore/Books.types';
 import { AddToCartAction } from 'src/store/CartStore/Cart.actions';
@@ -12,6 +13,7 @@ interface BookCoverProps {
 }
 
 const BookCover: React.FC<BookCoverProps> = ({ book, addToCart }) => {
+    const [added, setAdded] = useState(false);
     const { title, cover_url, author, pages, price, id } = book;
 
     const handleAddToCart = () => {
@@ -24,33 +26,51 @@ const BookCover: React.FC<BookCoverProps> = ({ book, addToCart }) => {
         };
 
         addToCart(cartItem);
+        setAdded(true);
     };
 
+    useEffect(() => {
+        if (added) {
+            const addedTimeout = setTimeout(() => {
+                setAdded(false);
+            }, 500);
+
+            return () => clearTimeout(addedTimeout);
+        }
+    });
+
     return (
-        <S.Book>
-            <Card.Img variant="top" src={cover_url} />
-            <S.BookBody>
-                <Card.Title>{title}</Card.Title>
-                <div>
-                    <Card.Text>
-                        Liczba stron: <span>{pages}</span>
-                    </Card.Text>
-                </div>
-                <div>
-                    <Card.Text>
-                        Autor: <span>{author}</span>
-                    </Card.Text>
-                </div>
-                <div>
-                    <Card.Text>
-                        Cena: <span>{price} zł</span>
-                    </Card.Text>
-                </div>
-                <Button onClick={handleAddToCart} variant="dark">
-                    dodaj do koszyka
-                </Button>
-            </S.BookBody>
-        </S.Book>
+        <>
+            <S.Book>
+                <Card.Img variant="top" src={cover_url} />
+                <S.BookBody>
+                    <Card.Title>{title}</Card.Title>
+                    <div>
+                        <Card.Text>
+                            Liczba stron: <span>{pages}</span>
+                        </Card.Text>
+                    </div>
+                    <div>
+                        <Card.Text>
+                            Autor: <span>{author}</span>
+                        </Card.Text>
+                    </div>
+                    <div>
+                        <Card.Text>
+                            Cena: <span>{price} zł</span>
+                        </Card.Text>
+                    </div>
+                    <Button onClick={handleAddToCart} variant="dark">
+                        dodaj do koszyka
+                    </Button>
+                </S.BookBody>
+            </S.Book>
+            {added && (
+                <S.SuccesAlertBox>
+                    <Alert variant="success">Pomyślnie dodano do koszyka</Alert>
+                </S.SuccesAlertBox>
+            )}
+        </>
     );
 };
 

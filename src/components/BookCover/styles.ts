@@ -1,5 +1,14 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Card } from 'react-bootstrap';
+
+const show = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
 
 export const Book = styled(Card)`
     max-width: 300px;
@@ -36,4 +45,12 @@ export const BookBody = styled(Card.Body)`
     & div:nth-child(4) {
         margin-bottom: 10px;
     }
+`;
+export const SuccesAlertBox = styled.div`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    animation: ${show} 0.1s ease-in;
 `;

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Container as ContainerComponent } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 export const Link = styled(NavLink)`
@@ -11,5 +12,11 @@ export const Link = styled(NavLink)`
     &:hover,
     &.active {
         color: #fff;
+    }
+`;
+
+export const Container = styled(ContainerComponent)`
+    & span:first-child {
+        cursor: pointer;
     }
 `;

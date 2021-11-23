@@ -74,7 +74,7 @@ const Home: React.FC<HomeProps> = ({ books, loading, error, setBooks }) => {
                         pageCount={pageCount}
                         previousLabel="<"
                         marginPagesDisplayed={0}
-                        initialPage={page - 1}
+                        forcePage={page - 1}
                         activeLinkClassName="active"
                         disabledClassName="disabled"
                     />
