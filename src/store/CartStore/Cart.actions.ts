@@ -16,8 +16,12 @@ import {
 
 export type HandleOrderAction = (order: Order) => ThunkAction<void, CartState, {}, HandleOrder>;
 export type AddToCartAction = (order: CartItem) => ThunkAction<void, CartState, {}, AddToCart>;
-export type RemoveCartItemAction = (order: CartItem) => ThunkAction<void, CartState, {}, RemoveCartItem>;
-export type SetOnSuccessCartAction = (state?: boolean) => ThunkAction<void, CartState, {}, SetOnSuccess>;
+export type RemoveCartItemAction = (
+    order: CartItem
+) => ThunkAction<void, CartState, {}, RemoveCartItem>;
+export type SetOnSuccessCartAction = (
+    state?: boolean
+) => ThunkAction<void, CartState, {}, SetOnSuccess>;
 
 export const addToCart = (cartItem: CartItem) => ({
     type: CartActionTypes.ADD_TO_CART,
@@ -42,13 +46,13 @@ export const handleOrder: HandleOrderAction =
             dispatch({ type: CartActionTypes.SET_LOADING, payload: true });
 
             const data: AxiosResponse<{ statusText: string }> = await sendOrder(order);
-            console.log(data.statusText);
+          
             if (data.statusText !== 'Created') throw new Error('Nie udało się złożyc zamówienia');
 
+            dispatch({ type: CartActionTypes.SET_ON_SUCCESS, payload: true });
             dispatch({
                 type: CartActionTypes.HANDLE_ORDER,
             });
-            dispatch({ type: CartActionTypes.SET_ON_SUCCESS, payload: true });
         } catch (err: any) {
             if (err?.response?.data?.error?.message) {
                 dispatch({

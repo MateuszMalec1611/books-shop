@@ -70,7 +70,6 @@ const CartReducer = (
         case CartActionTypes.SET_CART_ERROR:
             return { ...state, error: action.payload ?? undefined };
         case CartActionTypes.SET_ON_SUCCESS:
-            console.log(action.payload);
             return { ...state, onSuccess: action.payload ?? undefined };
 
         default:

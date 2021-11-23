@@ -63,7 +63,6 @@ const OrderForm: React.FC<OrderFormProps> = ({
         if (onSuccess) {
             const redirectTimeout = setTimeout(() => {
                 setOnSuccessState();
-                navigate('/', { replace: true });
             }, 1500);
 
             return () => clearTimeout(redirectTimeout);

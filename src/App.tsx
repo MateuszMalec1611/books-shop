@@ -8,6 +8,7 @@ import OrderForm from './pages/OrderForm/OrderForm';
 
 const App = () => {
     const cartIsNotEmpty = useAppSelector(state => state.cartStore.cart).length;
+    const onSuccess = useAppSelector(state => state.cartStore.onSuccess);
 
     return (
         <Layout>
@@ -16,7 +17,7 @@ const App = () => {
                 <Route path="/cart" element={<Cart />} />
                 <Route
                     path="/ordering"
-                    element={!!cartIsNotEmpty ? <OrderForm /> : <Navigate to="/" />}
+                    element={!!cartIsNotEmpty || onSuccess ? <OrderForm /> : <Navigate to="/" />}
                 />
             </Routes>
         </Layout>
