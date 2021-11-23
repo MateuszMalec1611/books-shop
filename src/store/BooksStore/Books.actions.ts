@@ -17,6 +17,8 @@ export const setBooks: SetBooksAction =
     (page: number) => async (dispatch: Dispatch<BooksDispatchTypes>) => {
         try {
             dispatch({ type: BooksActionTypes.SET_LOADING, payload: true });
+            dispatch({ type: BooksActionTypes.SET_ERROR });
+
             const { data }: AxiosResponse<{ data: Book[]; metadata: Metadata }> = await fetchBooks(
                 page
             );
@@ -26,7 +28,14 @@ export const setBooks: SetBooksAction =
                 payload: { booksList: data.data, metadata: data.metadata },
             });
         } catch (err: any) {
-            console.log(err);
+            if (err?.response?.data?.error?.message) {
+                dispatch({
+                    type: BooksActionTypes.SET_ERROR,
+                    payload: err.response.data.error.message,
+                });
+            } else {
+                dispatch({ type: BooksActionTypes.SET_ERROR, payload: err.message });
+            }
         } finally {
             dispatch({ type: BooksActionTypes.SET_LOADING });
         }

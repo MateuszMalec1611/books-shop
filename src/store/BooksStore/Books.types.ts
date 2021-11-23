@@ -1,6 +1,7 @@
 export interface BooksState {
     books?: Books;
     loading: boolean;
+    error?: string;
 }
 
 export interface SetBooks {
@@ -12,7 +13,12 @@ export interface SetLoading {
     payload?: boolean;
 }
 
-export type BooksDispatchTypes = SetBooks | SetLoading;
+export interface SetError {
+    type: BooksActionTypes.SET_ERROR;
+    payload?: string;
+}
+
+export type BooksDispatchTypes = SetBooks | SetLoading | SetError;
 
 export type Books = {
     booksList: { [key: number]: Book[] };
@@ -38,4 +44,5 @@ export type Metadata = {
 export enum BooksActionTypes {
     SET_BOOKS = 'SET_BOOKS',
     SET_LOADING = 'SET_LOADING',
+    SET_ERROR = 'SET_ERROR',
 }

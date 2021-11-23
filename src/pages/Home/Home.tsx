@@ -5,20 +5,22 @@ import { RootState } from 'src/store/Store';
 import { setBooks } from 'src/store/BooksStore/Books.actions';
 import { Books } from 'src/store/BooksStore/Books.types';
 import BookCover from 'src/components/BookCover/BookCover';
-import { Alert, Container, Row } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 import useScrollPosition from '@react-hook/window-scroll';
 import Loader from 'src/components/Loader/Loader';
 import { SetBooksAction } from 'src/store/BooksStore/Books.actions';
+import Alert from 'src/components/Alert/Alert';
 import * as S from './styles';
 
 export interface HomeProps {
     books?: Books;
     loading: boolean;
+    error?: string;
     setBooks: InferThunkActionCreatorType<SetBooksAction>;
 }
 
-const Home: React.FC<HomeProps> = ({ books, loading, setBooks }) => {
+const Home: React.FC<HomeProps> = ({ books, loading, error, setBooks }) => {
     let navigate = useNavigate();
     let [searchParams] = useSearchParams();
     const scrollY = useScrollPosition(60);
@@ -57,12 +59,12 @@ const Home: React.FC<HomeProps> = ({ books, loading, setBooks }) => {
 
     return (
         <Container fluid>
-            {!loading && !!booksList?.length && (
+            {!loading && !!booksList?.length && !error && (
                 <Row xs={1} md={2} lg={3} xl={4}>
                     {booksList}
                 </Row>
             )}
-            {pageCount && !!booksList?.length && (
+            {pageCount && !!booksList?.length && !error && (
                 <S.PaginationWrapper xs={12}>
                     <ReactPaginate
                         breakLabel="..."
@@ -78,14 +80,11 @@ const Home: React.FC<HomeProps> = ({ books, loading, setBooks }) => {
                     />
                 </S.PaginationWrapper>
             )}
-            {!loading && !booksList?.length && (
-                <S.Wrapper>
-                    <Alert variant="warning">
-                        Obecnie nie posiadamy żadnych ksiązek w sprzedaży
-                    </Alert>
-                </S.Wrapper>
+            {!loading && !booksList?.length && !error && (
+                <Alert variant="warning">Obecnie nie posiadamy żadnych ksiązek w sprzedaży</Alert>
             )}
             {loading && <Loader />}
+            {error && !loading && <Alert variant="danger">{error}</Alert>}
             {scrollY > 800 && <S.TopArrow onClick={handleTop}>^</S.TopArrow>}
         </Container>
     );
@@ -94,6 +93,7 @@ const Home: React.FC<HomeProps> = ({ books, loading, setBooks }) => {
 const mapStateToProps = (state: RootState) => ({
     books: state.booksStore.books,
     loading: state.booksStore.loading,
+    error: state.booksStore.error,
 });
 
 export default connect(mapStateToProps, { setBooks })(Home);

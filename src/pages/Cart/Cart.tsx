@@ -1,8 +1,9 @@
 import CartItem from 'src/components/CartItem/CartItem';
 import { useAppSelector } from 'src/hooks/useAppStore';
 import { Button } from 'react-bootstrap';
-import * as S from './styles';
 import { useNavigate } from 'react-router';
+import Alert from 'src/components/Alert/Alert';
+import * as S from './styles';
 
 interface CartProps {}
 
@@ -16,17 +17,20 @@ const Cart: React.FC<CartProps> = () => {
 
     return (
         <>
-            <S.CartWrapper>
-                <S.CartItemsBox>{cartItems}</S.CartItemsBox>
-                <S.SummaryBox>
-                    <h2>
-                        koszt: <span>{totalAmount} zł</span>
-                    </h2>
-                    <Button onClick={handleRedirect} variant="dark">
-                        DALEJ
-                    </Button>
-                </S.SummaryBox>
-            </S.CartWrapper>
+            {!!cartItems.length && (
+                <S.CartWrapper>
+                    <S.CartItemsBox>{cartItems}</S.CartItemsBox>
+                    <S.SummaryBox>
+                        <h2>
+                            koszt: <span>{totalAmount} zł</span>
+                        </h2>
+                        <Button onClick={handleRedirect} variant="dark">
+                            DALEJ
+                        </Button>
+                    </S.SummaryBox>
+                </S.CartWrapper>
+            )}
+            {!cartItems.length && <Alert variant="warning">Twój koszyk jest pusty</Alert>}
         </>
     );
 };

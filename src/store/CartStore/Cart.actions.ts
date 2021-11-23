@@ -14,7 +14,9 @@ import {
 
 export type HandleOrderAction = (order: Order) => ThunkAction<void, CartState, {}, HandleOrder>;
 export type AddToCartAction = (order: CartItem) => ThunkAction<void, CartState, {}, AddToCart>;
-export type RemoveCartItemAction = (order: CartItem) => ThunkAction<void, CartState, {}, RemoveCartItem>;
+export type RemoveCartItemAction = (
+    order: CartItem
+) => ThunkAction<void, CartState, {}, RemoveCartItem>;
 
 export const addToCart = (cartItem: CartItem) => ({
     type: CartActionTypes.ADD_TO_CART,
@@ -29,7 +31,8 @@ export const removeCartItem = (cartItem: CartItem) => ({
 export const handleOrder: HandleOrderAction =
     (order: Order) => async (dispatch: Dispatch<CartDispatchTypes>) => {
         try {
-            dispatch({ type: CartActionTypes.LOADING, payload: true });
+            dispatch({ type: CartActionTypes.SET_ERROR });
+            dispatch({ type: CartActionTypes.SET_LOADING, payload: true });
 
             const data = await sendOrder(order);
             console.log(data);
@@ -38,8 +41,15 @@ export const handleOrder: HandleOrderAction =
                 type: CartActionTypes.HANDLE_ORDER,
             });
         } catch (err: any) {
-            console.log(err);
+            if (err?.response?.data?.error?.message) {
+                dispatch({
+                    type: CartActionTypes.SET_ERROR,
+                    payload: err.response.data.error.message,
+                });
+            } else {
+                dispatch({ type: CartActionTypes.SET_ERROR, payload: err.message });
+            }
         } finally {
-            dispatch({ type: CartActionTypes.LOADING, payload: false });
+            dispatch({ type: CartActionTypes.SET_LOADING, payload: false });
         }
     };

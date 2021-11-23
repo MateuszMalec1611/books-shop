@@ -4,6 +4,7 @@ const defaultState: CartState = {
     cart: [],
     totalAmount: 0,
     loading: false,
+    error: undefined,
 };
 
 const CartReducer = (
@@ -63,8 +64,10 @@ const CartReducer = (
         case CartActionTypes.HANDLE_ORDER:
             return { ...state, cart: [], totalAmount: 0 };
 
-        case CartActionTypes.LOADING:
+        case CartActionTypes.SET_LOADING:
             return { ...state, loading: action.payload ?? false };
+        case CartActionTypes.SET_ERROR:
+            return { ...state, error: action.payload ?? undefined };
 
         default:
             return state;

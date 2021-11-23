@@ -6,16 +6,24 @@ import { HandleOrderAction } from 'src/store/CartStore/Cart.actions';
 import { handleOrder } from 'src/store/CartStore/Cart.actions';
 import { CartItem, Order } from 'src/store/CartStore/Cart.types';
 import { RootState } from 'src/store/Store';
+import Alert from 'src/components/Alert/Alert';
 import * as S from './styles';
 
 interface OrderFormProps {
     orders: CartItem[];
     totalAmount: number;
     loading: boolean;
+    error?: string;
     handleOrder: InferThunkActionCreatorType<HandleOrderAction>;
 }
 
-const OrderForm: React.FC<OrderFormProps> = ({ orders, totalAmount, loading, handleOrder }) => {
+const OrderForm: React.FC<OrderFormProps> = ({
+    orders,
+    totalAmount,
+    loading,
+    error,
+    handleOrder,
+}) => {
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
     const [city, setCity] = useState('');
@@ -46,7 +54,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ orders, totalAmount, loading, han
 
     return (
         <>
-            {!loading && (
+            {!loading  && (
                 <S.FormWrapper>
                     <h2>Składanie zamówienia</h2>
                     <S.FormBox>
@@ -77,6 +85,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ orders, totalAmount, loading, han
                 </S.FormWrapper>
             )}
             {loading && <Loader />}
+            {error && !loading && <Alert space={false} variant="danger">{error}</Alert>}
         </>
     );
 };
@@ -85,5 +94,6 @@ const mapStateToProps = (state: RootState) => ({
     totalAmount: state.cartStore.totalAmount,
     orders: state.cartStore.cart,
     loading: state.cartStore.loading,
+    error: state.cartStore.error,
 });
 export default connect(mapStateToProps, { handleOrder })(OrderForm);

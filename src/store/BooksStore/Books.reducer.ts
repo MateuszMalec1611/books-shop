@@ -3,6 +3,7 @@ import { BooksActionTypes, BooksDispatchTypes, BooksState } from './Books.types'
 const defaultState: BooksState = {
     books: undefined,
     loading: false,
+    error: undefined,
 };
 
 const BooksReducer = (
@@ -25,6 +26,11 @@ const BooksReducer = (
             return {
                 ...state,
                 loading: action.payload ?? false,
+            };
+        case BooksActionTypes.SET_ERROR:
+            return {
+                ...state,
+                error: action.payload ?? undefined,
             };
 
         default:
