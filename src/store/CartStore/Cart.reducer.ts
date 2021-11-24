@@ -68,7 +68,7 @@ export const CartReducer = (
             };
 
         case CartActionTypes.HANDLE_ORDER:
-            return { ...state, cart: [], totalAmount: 0 };
+            return { ...state, cart: [], totalAmount: 0, totalQuantity: 0 };
         case CartActionTypes.SET_LOADING:
             return { ...state, loading: action.payload ?? false };
         case CartActionTypes.SET_CART_ERROR:
